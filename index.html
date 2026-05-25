@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+            },
+            boxShadow: {
+              tile: "0 18px 46px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background:
+          radial-gradient(circle at 18% 8%, rgba(59, 130, 246, 0.18), transparent 26rem),
+          radial-gradient(circle at 84% 14%, rgba(168, 85, 247, 0.16), transparent 28rem),
+          radial-gradient(circle at 45% 92%, rgba(20, 184, 166, 0.12), transparent 30rem),
+          #080a10;
+      }
+
+      .glass {
+        background: rgba(255, 255, 255, 0.075);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 18px 70px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+      }
+
+      .glass-strong {
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.055));
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen font-sans text-white antialiased">
+    <main class="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 py-8 sm:px-6 lg:px-8">
+      <section class="flex flex-1 flex-col justify-center gap-8 py-4 sm:gap-10 sm:py-8">
+        <div class="mx-auto grid w-full max-w-4xl gap-5 text-center">
+          <div>
+            <p class="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-white/40 sm:text-sm">Quick Access</p>
+            <h1 class="text-4xl font-extrabold tracking-normal text-white sm:text-5xl lg:text-6xl">Start here</h1>
+          </div>
+
+          <div class="mx-auto grid w-full max-w-2xl gap-4">
+            <div id="clock" class="text-sm font-medium text-white/55 sm:text-base"></div>
+
+            <form
+              action="https://www.google.com/search"
+              method="GET"
+              class="glass group flex h-16 w-full items-center gap-3 rounded-3xl px-4 transition duration-300 focus-within:border-white/30 focus-within:bg-white/[0.105] sm:px-5"
+            >
+              <i data-lucide="search" class="h-5 w-5 shrink-0 text-white/45 transition group-focus-within:text-white"></i>
+              <input
+                name="q"
+                type="search"
+                autocomplete="off"
+                placeholder="Search Google"
+                class="h-full min-w-0 flex-1 bg-transparent text-base text-white outline-none placeholder:text-white/35 sm:text-lg"
+              />
+              <button
+                type="submit"
+                class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white text-zinc-950 transition hover:bg-zinc-200"
+                aria-label="Search"
+              >
+                <i data-lucide="arrow-right" class="h-5 w-5"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="glass-strong mx-auto grid w-full gap-6 rounded-[2rem] p-4 sm:p-6 lg:p-8">
+          <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div id="tabs" class="flex gap-2 overflow-x-auto pb-1"></div>
+
+            <form id="tab-form" class="flex gap-2">
+              <input
+                id="tab-name"
+                type="text"
+                placeholder="Новая вкладка"
+                class="min-w-0 flex-1 rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-white/30 lg:w-44"
+              />
+              <button
+                type="submit"
+                class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white text-zinc-950 transition hover:bg-zinc-200"
+                aria-label="Добавить вкладку"
+              >
+                <i data-lucide="plus" class="h-5 w-5"></i>
+              </button>
+            </form>
+          </div>
+
+          <div class="grid gap-4 lg:grid-cols-[1fr_340px]">
+            <section class="grid content-start gap-4">
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p class="text-xs font-bold uppercase tracking-[0.2em] text-white/42">Active tab</p>
+                  <h2 id="active-title" class="mt-1 text-2xl font-bold"></h2>
+                </div>
+                <button
+                  id="delete-tab"
+                  type="button"
+                  class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/10 bg-white/[0.07] text-white/70 transition hover:bg-red-500/20 hover:text-red-100 disabled:cursor-not-allowed disabled:opacity-40"
+                  aria-label="Удалить текущую вкладку"
+                >
+                  <i data-lucide="trash-2" class="h-5 w-5"></i>
+                </button>
+              </div>
+
+              <label class="glass flex h-12 items-center gap-3 rounded-2xl px-4">
+                <i data-lucide="search" class="h-5 w-5 shrink-0 text-white/45"></i>
+                <input
+                  id="local-search"
+                  type="search"
+                  placeholder="Поиск по карточкам"
+                  class="h-full min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/35"
+                />
+              </label>
+
+              <div id="cards" class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3"></div>
+            </section>
+
+            <aside class="grid content-start gap-4">
+              <div class="glass grid content-start gap-4 rounded-3xl p-4">
+                <div>
+                  <h3 id="form-title" class="text-lg font-bold">Добавить карточку</h3>
+                  <p id="form-note" class="mt-1 text-sm leading-5 text-white/45">Название, ссылка, вкладка и иконка.</p>
+                </div>
+
+                <form id="card-form" class="grid gap-3">
+                  <select
+                    id="service-tab"
+                    class="rounded-2xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm text-white outline-none focus:border-white/30"
+                  ></select>
+                  <input
+                    id="service-name"
+                    type="text"
+                    placeholder="Название"
+                    required
+                    class="rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-white/30"
+                  />
+                  <input
+                    id="service-url"
+                    type="url"
+                    placeholder="https://example.com"
+                    required
+                    class="rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-white/30"
+                  />
+                  <select
+                    id="service-icon"
+                    class="rounded-2xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm text-white outline-none focus:border-white/30"
+                  ></select>
+                  <div class="grid grid-cols-2 gap-2">
+                    <button
+                      id="cancel-edit"
+                      type="button"
+                      class="hidden h-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.07] font-semibold text-white/72 transition hover:bg-white/[0.12] hover:text-white"
+                    >
+                      Отмена
+                    </button>
+                    <button
+                      id="submit-card"
+                      type="submit"
+                      class="col-span-2 flex h-12 items-center justify-center gap-2 rounded-2xl bg-white font-semibold text-zinc-950 transition hover:bg-zinc-200"
+                    >
+                      <i data-lucide="plus" class="h-5 w-5"></i>
+                      Добавить
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="glass grid gap-3 rounded-3xl p-4">
+                <h3 class="text-lg font-bold">Настройки</h3>
+                <div class="grid grid-cols-1 gap-2 sm:grid-cols-3 lg:grid-cols-1">
+                  <button
+                    id="export-settings"
+                    type="button"
+                    class="flex h-11 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.07] text-sm font-semibold text-white/75 transition hover:bg-white/[0.12] hover:text-white"
+                  >
+                    <i data-lucide="download" class="h-4 w-4"></i>
+                    Экспорт JSON
+                  </button>
+                  <label
+                    class="flex h-11 cursor-pointer items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.07] text-sm font-semibold text-white/75 transition hover:bg-white/[0.12] hover:text-white"
+                  >
+                    <i data-lucide="upload" class="h-4 w-4"></i>
+                    Импорт JSON
+                    <input id="import-settings" type="file" accept="application/json,.json" class="hidden" />
+                  </label>
+                  <button
+                    id="reset-settings"
+                    type="button"
+                    class="flex h-11 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.07] text-sm font-semibold text-white/75 transition hover:bg-red-500/20 hover:text-red-100"
+                  >
+                    <i data-lucide="rotate-ccw" class="h-4 w-4"></i>
+                    Сброс
+                  </button>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      /*
+        DIY config.
+        You can edit this object directly, or use the page UI.
+        Browser changes are saved to localStorage under "personal-dashboard-tabs-v1".
+        Icon names are Lucide Icons: https://lucide.dev/icons/
+      */
+      const defaultTabs = [
+        {
+          title: "Work",
+          services: [
+            { name: "IDE", url: "vscode://", icon: "code-2" },
+            { name: "Терминал", url: "wt://", icon: "terminal" },
+          ],
+        },
+        {
+          title: "AI Assist",
+          services: [
+            { name: "ChatGPT", url: "https://chat.openai.com/", icon: "sparkles" },
+            { name: "Gemini", url: "https://gemini.google.com/", icon: "bot" },
+            { name: "DeepSeek", url: "https://chat.deepseek.com/", icon: "brain" },
+            { name: "Grok", url: "https://grok.com/", icon: "zap" },
+            { name: "Qwen", url: "https://chat.qwen.ai/", icon: "blocks" },
+          ],
+        },
+        {
+          title: "Google Ecosystem",
+          services: [
+            { name: "Drive", url: "https://drive.google.com/", icon: "hard-drive" },
+            { name: "Gmail", url: "https://mail.google.com/", icon: "mail" },
+            { name: "NotebookLM", url: "https://notebooklm.google.com/", icon: "notebook-tabs" },
+            { name: "AI Studio", url: "https://aistudio.google.com/", icon: "bot" },
+          ],
+        },
+        {
+          title: "Tools",
+          services: [
+            { name: "MyHeritage", url: "https://www.myheritage.com/", icon: "tree-pine" },
+            { name: "Calendar", url: "https://calendar.google.com/", icon: "calendar-days" },
+            { name: "GitHub", url: "https://github.com/", icon: "github" },
+            { name: "Cloudflare", url: "https://dash.cloudflare.com/", icon: "shield-check" },
+          ],
+        },
+      ];
+
+      const iconOptions = [
+        "sparkles",
+        "bot",
+        "brain",
+        "zap",
+        "blocks",
+        "code-2",
+        "terminal",
+        "mail",
+        "hard-drive",
+        "notebook-tabs",
+        "tree-pine",
+        "calendar-days",
+        "github",
+        "shield-check",
+        "message-circle",
+        "globe",
+        "star",
+        "search",
+        "book-open",
+        "briefcase",
+        "cloud",
+        "database",
+        "image",
+        "music",
+      ];
+
+      const allTabId = "all";
+      const storageKey = "personal-dashboard-tabs-v1";
+      const tabsEl = document.querySelector("#tabs");
+      const cardsEl = document.querySelector("#cards");
+      const activeTitleEl = document.querySelector("#active-title");
+      const deleteTabBtn = document.querySelector("#delete-tab");
+      const tabForm = document.querySelector("#tab-form");
+      const tabNameInput = document.querySelector("#tab-name");
+      const cardForm = document.querySelector("#card-form");
+      const serviceTabSelect = document.querySelector("#service-tab");
+      const serviceNameInput = document.querySelector("#service-name");
+      const serviceUrlInput = document.querySelector("#service-url");
+      const serviceIconSelect = document.querySelector("#service-icon");
+      const formTitle = document.querySelector("#form-title");
+      const formNote = document.querySelector("#form-note");
+      const submitCardBtn = document.querySelector("#submit-card");
+      const cancelEditBtn = document.querySelector("#cancel-edit");
+      const clockEl = document.querySelector("#clock");
+      const localSearchInput = document.querySelector("#local-search");
+      const exportBtn = document.querySelector("#export-settings");
+      const importInput = document.querySelector("#import-settings");
+      const resetBtn = document.querySelector("#reset-settings");
+
+      let tabs = loadTabs();
+      let activeTab = allTabId;
+      let editingRef = null;
+
+      function cloneTabs(value) {
+        return JSON.parse(JSON.stringify(value));
+      }
+
+      function loadTabs() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(storageKey));
+          return normalizeTabs(saved);
+        } catch {
+          return cloneTabs(defaultTabs);
+        }
+      }
+
+      function normalizeTabs(value) {
+        if (!Array.isArray(value) || !value.length) return cloneTabs(defaultTabs);
+        const normalized = value
+          .filter((tab) => tab && typeof tab.title === "string")
+          .map((tab) => ({
+            title: tab.title.trim() || "Untitled",
+            services: Array.isArray(tab.services)
+              ? tab.services
+                  .filter((service) => service && service.name && service.url)
+                  .map((service) => ({
+                    name: String(service.name),
+                    url: String(service.url),
+                    icon: iconOptions.includes(service.icon) ? service.icon : "globe",
+                  }))
+              : [],
+          }));
+        return normalized.length ? normalized : cloneTabs(defaultTabs);
+      }
+
+      function saveTabs() {
+        localStorage.setItem(storageKey, JSON.stringify(tabs));
+      }
+
+      function updateClock() {
+        const now = new Date();
+        clockEl.textContent = new Intl.DateTimeFormat("ru-RU", {
+          weekday: "long",
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }).format(now);
+      }
+
+      function fillIconSelect() {
+        serviceIconSelect.innerHTML = "";
+        iconOptions.forEach((iconName) => {
+          const option = document.createElement("option");
+          option.value = iconName;
+          option.textContent = iconName;
+          serviceIconSelect.appendChild(option);
+        });
+      }
+
+      function fillServiceTabSelect() {
+        const selected = serviceTabSelect.value;
+        serviceTabSelect.innerHTML = "";
+        tabs.forEach((tab, index) => {
+          const option = document.createElement("option");
+          option.value = String(index);
+          option.textContent = tab.title;
+          serviceTabSelect.appendChild(option);
+        });
+
+        if (editingRef) {
+          serviceTabSelect.value = String(editingRef.tabIndex);
+        } else if (activeTab !== allTabId) {
+          serviceTabSelect.value = String(activeTab);
+        } else if (selected && Number(selected) < tabs.length) {
+          serviceTabSelect.value = selected;
+        }
+      }
+
+      function isAllActive() {
+        return activeTab === allTabId;
+      }
+
+      function getVisibleCards() {
+        const query = localSearchInput.value.trim().toLowerCase();
+        const source = isAllActive()
+          ? tabs.flatMap((tab, tabIndex) =>
+              tab.services.map((service, serviceIndex) => ({
+                service,
+                tabTitle: tab.title,
+                tabIndex,
+                serviceIndex,
+              })),
+            )
+          : tabs[activeTab].services.map((service, serviceIndex) => ({
+              service,
+              tabTitle: tabs[activeTab].title,
+              tabIndex: activeTab,
+              serviceIndex,
+            }));
+
+        if (!query) return source;
+        return source.filter(({ service, tabTitle }) =>
+          `${service.name} ${service.url} ${service.icon} ${tabTitle}`.toLowerCase().includes(query),
+        );
+      }
+
+      function createTabButton(label, id) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = label;
+        button.className =
+          id === activeTab
+            ? "shrink-0 rounded-2xl bg-white px-4 py-3 text-sm font-bold text-zinc-950 shadow-lg transition"
+            : "shrink-0 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-semibold text-white/68 transition hover:bg-white/[0.11] hover:text-white";
+        button.addEventListener("click", () => {
+          activeTab = id;
+          cancelEditing();
+          render();
+        });
+        return button;
+      }
+
+      function createServiceCard(cardData) {
+        const { service, tabTitle, tabIndex, serviceIndex } = cardData;
+        const card = document.createElement("article");
+        card.className =
+          "group relative min-h-20 rounded-3xl border border-white/10 bg-white/[0.065] p-4 shadow-tile transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/24 hover:bg-white/[0.12] sm:min-h-28";
+
+        const link = document.createElement("a");
+        link.href = service.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.className = "flex h-full items-center gap-4 outline-none sm:flex-col sm:items-start sm:justify-between";
+
+        const iconWrap = document.createElement("span");
+        iconWrap.className =
+          "grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-white/10 bg-white/10 text-white shadow-inner transition duration-300 group-hover:bg-white group-hover:text-zinc-950";
+
+        const icon = document.createElement("i");
+        icon.dataset.lucide = service.icon;
+        icon.className = "h-6 w-6";
+        iconWrap.appendChild(icon);
+
+        const text = document.createElement("span");
+        text.className = "grid min-w-0 gap-1 pr-16";
+
+        const name = document.createElement("span");
+        name.className = "min-w-0 text-base font-semibold leading-tight text-white sm:text-lg";
+        name.textContent = service.name;
+
+        const meta = document.createElement("span");
+        meta.className = "text-xs font-medium text-white/38";
+        meta.textContent = tabTitle;
+
+        text.append(name, meta);
+
+        const edit = document.createElement("button");
+        edit.type = "button";
+        edit.className =
+          "absolute right-12 top-3 grid h-8 w-8 place-items-center rounded-xl bg-black/20 text-white/45 opacity-100 transition hover:bg-white/15 hover:text-white sm:opacity-0 sm:group-hover:opacity-100";
+        edit.setAttribute("aria-label", `Редактировать ${service.name}`);
+        edit.innerHTML = '<i data-lucide="pencil" class="h-4 w-4"></i>';
+        edit.addEventListener("click", () => startEditing(tabIndex, serviceIndex));
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className =
+          "absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-xl bg-black/20 text-white/45 opacity-100 transition hover:bg-red-500/25 hover:text-red-100 sm:opacity-0 sm:group-hover:opacity-100";
+        remove.setAttribute("aria-label", `Удалить ${service.name}`);
+        remove.innerHTML = '<i data-lucide="x" class="h-4 w-4"></i>';
+        remove.addEventListener("click", () => deleteCard(tabIndex, serviceIndex));
+
+        link.append(iconWrap, text);
+        card.append(link, edit, remove);
+        return card;
+      }
+
+      function renderTabs() {
+        tabsEl.innerHTML = "";
+        tabsEl.appendChild(createTabButton("Все", allTabId));
+        tabs.forEach((tab, index) => tabsEl.appendChild(createTabButton(tab.title, index)));
+      }
+
+      function renderCards() {
+        const visibleCards = getVisibleCards();
+        activeTitleEl.textContent = isAllActive() ? "Все" : tabs[activeTab].title;
+        cardsEl.innerHTML = "";
+
+        if (!visibleCards.length) {
+          const empty = document.createElement("p");
+          empty.className = "rounded-3xl border border-white/10 bg-white/[0.05] p-5 text-sm text-white/50";
+          empty.textContent = localSearchInput.value.trim()
+            ? "По этому запросу карточек не найдено."
+            : "В этой вкладке пока нет карточек.";
+          cardsEl.appendChild(empty);
+          return;
+        }
+
+        visibleCards.forEach((cardData) => cardsEl.appendChild(createServiceCard(cardData)));
+        lucide.createIcons();
+      }
+
+      function renderFormState() {
+        fillServiceTabSelect();
+        const isEditing = Boolean(editingRef);
+        formTitle.textContent = isEditing ? "Редактировать карточку" : "Добавить карточку";
+        formNote.textContent = isEditing ? "Измените название, ссылку, вкладку или иконку." : "Название, ссылка, вкладка и иконка.";
+        submitCardBtn.innerHTML = isEditing
+          ? '<i data-lucide="save" class="h-5 w-5"></i>Сохранить'
+          : '<i data-lucide="plus" class="h-5 w-5"></i>Добавить';
+        submitCardBtn.classList.toggle("col-span-2", !isEditing);
+        cancelEditBtn.classList.toggle("hidden", !isEditing);
+        cancelEditBtn.classList.toggle("flex", isEditing);
+      }
+
+      function render() {
+        if (activeTab !== allTabId && activeTab > tabs.length - 1) activeTab = allTabId;
+        renderTabs();
+        renderCards();
+        renderFormState();
+        deleteTabBtn.disabled = isAllActive() || tabs.length <= 1;
+        lucide.createIcons();
+      }
+
+      function resetCardForm() {
+        cardForm.reset();
+        serviceIconSelect.value = iconOptions[0];
+        fillServiceTabSelect();
+      }
+
+      function startEditing(tabIndex, serviceIndex) {
+        const service = tabs[tabIndex].services[serviceIndex];
+        editingRef = { tabIndex, serviceIndex };
+        serviceTabSelect.value = String(tabIndex);
+        serviceNameInput.value = service.name;
+        serviceUrlInput.value = service.url;
+        serviceIconSelect.value = iconOptions.includes(service.icon) ? service.icon : "globe";
+        render();
+      }
+
+      function cancelEditing() {
+        editingRef = null;
+        resetCardForm();
+      }
+
+      function deleteCard(tabIndex, serviceIndex) {
+        const service = tabs[tabIndex].services[serviceIndex];
+        if (!confirm(`Удалить карточку "${service.name}"?`)) return;
+        tabs[tabIndex].services.splice(serviceIndex, 1);
+        if (editingRef && editingRef.tabIndex === tabIndex && editingRef.serviceIndex === serviceIndex) {
+          editingRef = null;
+          resetCardForm();
+        }
+        saveTabs();
+        render();
+      }
+
+      function exportSettings() {
+        const payload = JSON.stringify(tabs, null, 2);
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "personal-dashboard-settings.json";
+        link.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function importSettings(file) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          try {
+            const imported = normalizeTabs(JSON.parse(reader.result));
+            tabs = imported;
+            activeTab = allTabId;
+            editingRef = null;
+            saveTabs();
+            resetCardForm();
+            render();
+          } catch {
+            alert("Не удалось импортировать JSON. Проверьте формат файла.");
+          } finally {
+            importInput.value = "";
+          }
+        });
+        reader.readAsText(file);
+      }
+
+      tabForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const title = tabNameInput.value.trim();
+        if (!title) return;
+        tabs.push({ title, services: [] });
+        activeTab = tabs.length - 1;
+        tabNameInput.value = "";
+        saveTabs();
+        render();
+      });
+
+      cardForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const name = serviceNameInput.value.trim();
+        const url = serviceUrlInput.value.trim();
+        const icon = serviceIconSelect.value;
+        const targetTabIndex = Number(serviceTabSelect.value);
+        if (!name || !url || !icon || Number.isNaN(targetTabIndex)) return;
+
+        const service = { name, url, icon };
+        if (editingRef) {
+          const [current] = tabs[editingRef.tabIndex].services.splice(editingRef.serviceIndex, 1);
+          Object.assign(current, service);
+          tabs[targetTabIndex].services.push(current);
+          editingRef = null;
+        } else {
+          tabs[targetTabIndex].services.push(service);
+        }
+
+        saveTabs();
+        resetCardForm();
+        render();
+      });
+
+      cancelEditBtn.addEventListener("click", () => {
+        editingRef = null;
+        resetCardForm();
+        render();
+      });
+
+      deleteTabBtn.addEventListener("click", () => {
+        if (isAllActive() || tabs.length <= 1) return;
+        const tab = tabs[activeTab];
+        if (!confirm(`Удалить вкладку "${tab.title}" и все карточки внутри?`)) return;
+        tabs.splice(activeTab, 1);
+        activeTab = allTabId;
+        editingRef = null;
+        saveTabs();
+        resetCardForm();
+        render();
+      });
+
+      localSearchInput.addEventListener("input", renderCards);
+      exportBtn.addEventListener("click", exportSettings);
+      importInput.addEventListener("change", () => importSettings(importInput.files[0]));
+      resetBtn.addEventListener("click", () => {
+        if (!confirm("Сбросить все настройки к defaultTabs?")) return;
+        tabs = cloneTabs(defaultTabs);
+        activeTab = allTabId;
+        editingRef = null;
+        saveTabs();
+        resetCardForm();
+        render();
+      });
+
+      fillIconSelect();
+      fillServiceTabSelect();
+      updateClock();
+      setInterval(updateClock, 1000);
+      render();
+    </script>
+  </body>
+</html>
