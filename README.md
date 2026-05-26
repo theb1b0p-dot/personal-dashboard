@@ -43,6 +43,12 @@ Use the page UI to:
 
 Card links open in a new browser tab.
 
+## Use as browser new tab
+
+- Install `Custom New Tab URL` or `New Tab Redirect`.
+- Set the new tab URL to `https://theb1b0p-dot.github.io/personal-dashboard/`.
+- In Yandex Browser, install the extension from the Chrome Web Store.
+
 ## How to Edit Links Manually in `index.html`
 
 Open `index.html` and edit the `defaultTabs` JavaScript array. Each tab contains a `title` and a `services` list:

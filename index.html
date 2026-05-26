@@ -3,7 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Personal Dashboard</title>
+    <meta name="theme-color" content="#080a10" />
+    <meta
+      name="description"
+      content="Personal start page with quick links, local search, and JSON import/export settings."
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Personal Dashboard" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>Personal Dashboard  Quick Access</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%23080a10%27/%3E%3Cpath d=%27M36%208L19%2035h12l-1%2021%2017-27H35Z%27 fill=%27%23f4f4f5%27/%3E%3C/svg%3E"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -205,7 +218,7 @@
 
               <div class="glass grid min-w-0 gap-3 rounded-3xl p-4">
                 <h3 class="text-lg font-bold">Настройки</h3>
-                <div class="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-3 lg:grid-cols-1">
+                <div class="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1">
                   <button
                     id="export-settings"
                     type="button"
@@ -229,6 +242,15 @@
                     <i data-lucide="rotate-ccw" class="h-4 w-4"></i>
                     Сброс
                   </button>
+                  <a
+                    href="https://github.com/theb1b0p-dot/personal-dashboard"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    class="flex h-11 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.07] text-sm font-semibold text-white/75 transition hover:bg-white/[0.12] hover:text-white"
+                  >
+                    <i data-lucide="github" class="h-4 w-4"></i>
+                    GitHub
+                  </a>
                 </div>
               </div>
             </aside>
